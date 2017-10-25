@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework.documentation import include_docs_urls
 
 
 urlpatterns = [
@@ -25,4 +26,6 @@ urlpatterns = [
     url(r'^api/devices/', include('device.urls')),
     url(r'^api/products/', include('product.urls')),
     url(r'^api/transactions/', include('transaction.urls')),
+
+    url(r'^docs/', include_docs_urls(title='Lazystore API docs'))
 ]

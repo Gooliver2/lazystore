@@ -1,7 +1,7 @@
 from rest_framework import generics
 
 from transaction.models import Transaction
-from transaction.serializers import TransactionCreateSerializer, TransactionListSerializer, TransactionDetailSerializer
+from transaction.serializers import TransactionSerializer, TransactionCreateSerializer
 
 
 class TransactionListView(generics.ListCreateAPIView):
@@ -10,9 +10,9 @@ class TransactionListView(generics.ListCreateAPIView):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return TransactionCreateSerializer
-        return TransactionListSerializer
+        return TransactionSerializer
 
 
 class TransactionDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Transaction.objects.all()
-    serializer_class = TransactionDetailSerializer
+    serializer_class = TransactionSerializer
