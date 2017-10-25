@@ -5,76 +5,634 @@ HOST: http://polls.apiblueprint.org/
 
 Polls is a simple API allowing consumers to view polls and vote in them.
 
-## Questions Collection [/questions]
+## Transactions [/api/transactions/?{limit,offset}]
 
-### List All Questions [GET]
++ Parameters
+    + limit (optional) - Number of objects to show on one page
+    + offset (optional) - Number of objects to skip
+
+### List Transactions [GET]
+List of all available transactions
 
 + Response 200 (application/json)
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+           {
+                "count": 1,
+                "next": null,
+                "previous": null,
+                "results": [
                     {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
+                        "id": 1,
+                        "payment_type": "credit",
+                        "sum": 10.0,
+                        "cash": 1.0,
+                        "change": 1.0,
+                        "created_at": "2017-10-02T21:39:42.586652Z",
+                        "updated_at": "2017-10-02T21:39:42.586757Z",
+                        "bucket": {
+                            "id": 1,
+                            "status": "in_progress",
+                            "card": 1
+                        }
                     }
                 ]
             }
-        ]
 
-### Create a New Question [POST]
+### Create a New Transaction [POST]
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
++ Request (application/json)
+
+        {    
+          "payment_type": "credit",
+          "sum": 10.0,
+          "cash": 1.0,
+          "change": 1.0,
+          "bucket": 1
+        }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "id": 1,
+                "payment_type": "credit",
+                "sum": 10.0,
+                "cash": 1.0,
+                "change": 1.0,
+                "created_at": "2017-10-02T21:39:42.586652Z",
+                "updated_at": "2017-10-02T21:39:42.586757Z",
+                "bucket": {
+                    "id": 1,
+                    "status": "in_progress",
+                    "card": 1
+                }
+            }
+            
+            
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "sum": [
+                    "A valid number is required."
+                ],
+                "bucket": [
+                    "This field must be unique."
+                ],
+                "cash": [
+                    "A valid number is required."
+                ],
+                "payment_type": [
+                    "\"asd\" is not a valid choice."
+                ],
+                "change": [
+                    "A valid number is required."
+                ]
+            }
+            
+            
+## Transaction Detail [/api/transactions/{id}/]
+
+### Transaction Detail [GET]
+
++ Response 200 (application/json)
+
+           {
+                "id": 1,
+                "payment_type": "credit",
+                "sum": 10,
+                "cash": 1,
+                "change": 1,
+                "created_at": "2017-10-02T21:39:42.586652Z",
+                "updated_at": "2017-10-02T21:39:42.586757Z",
+                "bucket": {
+                    "id": 1,
+                    "status": "in_progress",
+                    "card": 1
+                }
+            }
+
+
+### Update Transaction [PUT]
+
++ Request (application/json)
+
+        {    
+          "payment_type": "credit",
+          "sum": 10.0,
+          "cash": 1.0,
+          "change": 1.0,
+          "bucket": 1
+        }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "id": 1,
+                "payment_type": "credit",
+                "sum": 10.0,
+                "cash": 1.0,
+                "change": 1.0,
+                "created_at": "2017-10-02T21:39:42.586652Z",
+                "updated_at": "2017-10-02T21:39:42.586757Z",
+                "bucket": {
+                    "id": 1,
+                    "status": "in_progress",
+                    "card": 1
+                }
+            }
+            
+            
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "sum": [
+                    "A valid number is required."
+                ],
+                "bucket": [
+                    "This field must be unique."
+                ],
+                "cash": [
+                    "A valid number is required."
+                ],
+                "payment_type": [
+                    "\"asd\" is not a valid choice."
+                ],
+                "change": [
+                    "A valid number is required."
+                ]
+            }
+
+
+### Delete Transaction [DELETE]
+
++ Response 200 (application/json)
+
+
+
+## Buckets [/api/buckets/?{limit,offset}]
+
++ Parameters
+    + limit (optional) - Number of objects to show on one page
+    + offset (optional) - Number of objects to skip
+
+### List Buckets [GET]
+List of all available buckets
+
++ Response 200 (application/json)
+
+           {
+                "count": 7,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 7,
+                        "items": [
+                            {
+                                "id": 5,
+                                "product_name": "product_1",
+                                "amount": 10,
+                                "price": 10,
+                                "bucket": 7,
+                                "product": 1
+                            },
+                            {
+                                "id": 6,
+                                "product_name": "product_1",
+                                "amount": 10,
+                                "price": 10,
+                                "bucket": 7,
+                                "product": 1
+                            }
+                        ],
+                        "status": "in_progress",
+                        "card": 1
+                    }
+                ]
+            }
+
+### Create a New Bucket [POST]
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
+          "status": "in_progress",
+          "card": 1,
+          "items": [
+            {
+              "product": 1,
+              "product_name": "product_1",
+              "amount": 10,
+              "price": 10
+            }
+          ]
+        }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "id": 8,
+                "items": [
+                    {
+                        "id": 7,
+                        "product_name": "product_1",
+                        "amount": 10,
+                        "price": 10,
+                        "bucket": 8,
+                        "product": 1
+                    }
+                ],
+                "status": "in_progress",
+                "card": 1
+            }
+                        
+            
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "product": [
+                    "Incorrect type. Expected pk value, received str."
+                ]
+            }
+
+
+## Bucket Detail [/api/buckets/{id}/]
+
+### Bucket Detail [GET]
+
++ Response 200 (application/json)
+
+           {
+                "id": 7,
+                "items": [
+                    {
+                        "id": 5,
+                        "product_name": "product_1",
+                        "amount": 10,
+                        "price": 10,
+                        "bucket": 7,
+                        "product": 1
+                    },
+                    {
+                        "id": 6,
+                        "product_name": "product_1",
+                        "amount": 10,
+                        "price": 10,
+                        "bucket": 7,
+                        "product": 1
+                    }
+                ],
+                "status": "in_progress",
+                "card": 1
+            }
+
+
+### Update Transaction [PUT]
+
++ Request (application/json)
+
+        {
+            "status": "in_progress",
+            "card": 1,
+            "items": [
+                {
+                    "product_name": "product_1",
+                    "amount": 10,
+                    "price": 10,
+                    "bucket": 7,
+                    "product": 1
+                },
+                {
+                    "product_name": "product_1",
+                    "amount": 10,
+                    "price": 10,
+                    "bucket": 7,
+                    "product": 1
+                }
             ]
         }
 
 + Response 201 (application/json)
 
-    + Headers
+    + Body
 
-            Location: /questions/2
+            {
+                "id": 7,
+                "items": [
+                    {
+                        "id": 8,
+                        "product_name": "product_1",
+                        "amount": 10,
+                        "price": 10,
+                        "bucket": 7,
+                        "product": 1
+                    },
+                    {
+                        "id": 9,
+                        "product_name": "product_1",
+                        "amount": 10,
+                        "price": 10,
+                        "bucket": 7,
+                        "product": 1
+                    }
+                ],
+                "status": "in_progress",
+                "card": 1
+            }
+            
+            
++ Response 400 (application/json)
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+                "product": [
+                    "Incorrect type. Expected pk value, received str."
+                ]
+            }
+
+### Delete Bucket [DELETE]
+
++ Response 200 (application/json)
+
+
+
+## Product Types [/api/products/types/?{limit,offset}]
+
++ Parameters
+    + limit (optional) - Number of objects to show on one page
+    + offset (optional) - Number of objects to skip
+
+
+### List Product Types [GET]
+List of all available product types
+
++ Response 200 (application/json)
+
+           {
+                "count": 1,
+                "next": null,
+                "previous": null,
+                "results": [
                     {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
+                        "id": 1,
+                        "name": "Vegetables",
+                        "image": "http://127.0.0.1:8000/api/products/types/product_types/200000km.jpg"
                     }
                 ]
             }
+
+### Create a New Product Type [POST]
+
++ Request (application/json)
+
+        {
+          "name": "Vegetables"
+        }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "id": 3,
+                "name": "Vegetables",
+                "image": null
+            }
+            
+            
+            
+## Product Type Detail [/api/products/types/{id}/]
+
+### Product Type Detail [GET]
+
++ Response 200 (application/json)
+
+           {
+                "id": 1,
+                "name": "Vegetables",
+                "image": "http://127.0.0.1:8000/api/products/types/1/product_types/200000km.jpg"
+            }
+
+
+### Update Product Type [PUT]
+
++ Request (application/json)
+
+        {
+          "name": "Vegetables"
+        }
+
+
++ Response 201 (application/json)
+
+    + Body
+    
+                {
+                    "id": 1,
+                    "name": "Vegetables",
+                    "image": "http://127.0.0.1:8000/api/products/types/1/product_types/200000km.jpg"
+                }
+            
+            
++ Response 400 (application/json)
+
+    + Body
+    
+            {
+                "name": [
+                    "This field may not be null."
+                ]
+            }
+
+### Delete Product Type [DELETE]
+
++ Response 200 (application/json)
+
+
+
+## Upload Product Type image [/api/products/types/{id}/upload_image/]
+
+### Upload Product Type image [PUT]
+
++ Request (multipart/form-data)
+
+        "file": file content...
+        
++ Response 200 (application/json)
+
+                {
+                    "id": 3,
+                    "name": "Vegetables",
+                    "image": "product_types/levelup__f6osGDW.jpg"
+                }
+                
+                
+## Products [/api/products/?{type_id,limit,offset}]
+
++ Parameters
+    + type_id (optional) - to filter product by type NOT IMPLEMENTED YET!!!!
+    + limit (optional) - Number of objects to show on one page
+    + offset (optional) - Number of objects to skip
+
+
+### List Products [GET]
+List of all available products
+
++ Response 200 (application/json)
+
+           {
+                "count": 2,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 1,
+                        "name": "Apple",
+                        "description": "",
+                        "price": 0,
+                        "image": "products/200000km.jpg",
+                        "type": {
+                            "id": 1,
+                            "name": "Vegetables",
+                            "image": "product_types/200000km.jpg"
+                        }
+                    }
+                ]
+            }
+
+### Create a New Product [POST]
+
++ Request (application/json)
+
+        {
+          "name": "Apple",
+          "description": "",
+          "price": 0,
+          "type": 1
+        }
+
++ Response 201 (application/json)
+
+    + Body
+    
+            {
+                "id": 3,
+                "name": "Apple",
+                "description": "",
+                "price": 0,
+                "image": null,
+                "type": 1
+            }
+
++ Response 400
+
+    + Body
+    
+            {
+                "price": [
+                    "A valid number is required."
+                ],
+                "type": [
+                    "Invalid pk \"11\" - object does not exist."
+                ]
+            }
+                   
+            
+## Product Detail [/api/products/{id}/]
+
+### Product Detail [GET]
+
++ Response 200 (application/json)
+
+           {
+                "id": 1,
+                "name": "Apple",
+                "description": "",
+                "price": 0,
+                "image": "products/200000km.jpg",
+                "type": {
+                    "id": 1,
+                    "name": "Vegetables",
+                    "image": "product_types/200000km.jpg"
+                }
+            }
+
+
+### Update Product Type [PUT]
+
++ Request (application/json)
+
+        {
+          "name": "Apple",
+          "description": "",
+          "price": 2,
+          "type": 1
+        }
+
++ Response 201 (application/json)
+
+    + Body
+    
+                {
+                    "id": 1,
+                    "name": "Apple",
+                    "description": "",
+                    "price": 2,
+                    "image": "products/200000km.jpg",
+                    "type": 1
+                }
+            
+            
++ Response 400 (application/json)
+
+    + Body
+    
+            {
+                "price": [
+                    "A valid number is required."
+                ],
+                "type": [
+                    "Invalid pk \"11\" - object does not exist."
+                ]
+            }
+
+### Delete Product [DELETE]
+
++ Response 200 (application/json)
+
+
+
+## Upload Product image [/api/products/{id}/upload_image/]
+
+### Upload Product image [PUT]
+
++ Request (multipart/form-data)
+
+        "file": file content...
+        
++ Response 200 (application/json)
+
+                {
+                    "id": 1,
+                    "name": "Apple",
+                    "description": "",
+                    "price": 2,
+                    "image": "products/levelup__F7CkcxL.jpg",
+                    "type": {
+                        "id": 1,
+                        "name": "Vegetables",
+                        "image": "product_types/200000km.jpg"
+                    }
+                }
