@@ -636,3 +636,111 @@ List of all available products
                         "image": "product_types/200000km.jpg"
                     }
                 }
+                
+## Cards [/api/cards/?{limit,offset}]
+
++ Parameters
+    + limit (optional) - Number of objects to show on one page
+    + offset (optional) - Number of objects to skip
+
+
+### List Cards [GET]
+List of all available cards
+
++ Response 200 (application/json)
+
+           {
+                "count": 1,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 1,
+                        "uid": "123",
+                        "status": "active"
+                    }
+                ]
+            }
+
+### Create a New Card [POST]
+
++ Request (application/json)
+
+        {
+            "uid": "1234",
+            "status": "active"
+        }
+
++ Response 201 (application/json)
+
+    + Body
+    
+            {
+                "id": 3,
+                "uid": "1234",
+                "status": "active"
+            }
+
++ Response 400
+
+    + Body
+    
+            {
+                "uid": [
+                    "Card with provided UID already exists!"
+                ],
+                "status": [
+                    "\"xyiactive\" is not a valid choice."
+                ]
+            }
+
+
+## Card Detail [/api/cards/{id}/]
+
+### Card Detail [GET]
+
++ Response 200 (application/json)
+
+           {
+                "id": 3,
+                "uid": "1234",
+                "status": "active"
+            }
+
+
+### Update Card [PUT]
+
++ Request (application/json)
+
+        {
+            "uid": "1234",
+            "status": "inactive"
+        }
+
++ Response 201 (application/json)
+
+    + Body
+    
+                {
+                    "id": 3,
+                    "uid": "1234",
+                    "status": "inactive"
+                }
+            
+            
++ Response 400 (application/json)
+
+    + Body
+    
+            {
+                "price": [
+                    "A valid number is required."
+                ],
+                "type": [
+                    "Invalid pk \"11\" - object does not exist."
+                ]
+            }
+
+### Delete Card [DELETE]
+
++ Response 200 (application/json)
