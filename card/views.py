@@ -1,18 +1,14 @@
 from rest_framework import generics
 
 from card.models import Card
-from card.serializers import CardDetailSerializer, CardListSerializer, CardCreateSerializer
+from card.serializers import CardSerializer
 
 
 class CardListView(generics.ListCreateAPIView):
     queryset = Card.objects.all()
-
-    def get_serializer_class(self):
-        if self.request.method == 'POST':
-            return CardCreateSerializer
-        return CardListSerializer
+    serializer_class = CardSerializer
 
 
 class CardDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Card.objects.all()
-    serializer_class = CardDetailSerializer
+    serializer_class = CardSerializer
