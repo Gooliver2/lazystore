@@ -5,11 +5,25 @@ HOST: http://polls.apiblueprint.org/
 
 Polls is a simple API allowing consumers to view polls and vote in them.
 
-## Transactions [/api/transactions/?{limit,offset}]
+## Transactions [/api/transactions/{?limit,offset,ordering,payment_type,bucket,sum_lte,sum_gte,cash_lte,cash_gte,change_lte,change_gte,created_at_gte,created_at_lte,updated_at_gte,updated_at_lte}]
 
 + Parameters
     + limit (optional) - Number of objects to show on one page
     + offset (optional) - Number of objects to skip
+    
+    + ordering (optional) - order by fields, add '-' before value to reverse, options are: 'bucket', 'payment_type', 'sum', 'cash', 'change', 'created_at', 'updated_at'
+    + `payment_type` (optional) - filter by payment_type, options are: 'in_progress', 'completed'
+    + bucket (optional) - filter by bucket ID!
+    + `sum_lte` (optional) - filter by sum, lower than value, format: 2, 2.2
+    + `sum_gte` (optional) - filter by sum, bigger than value, format: 2, 2.2
+    + `cash_lte` (optional) - filter by cashe, lower than value, format: 2, 2.2
+    + `cash_gte` (optional) - filter by cashe, bigger than value, format: 2, 2.2
+    + `change_lte` (optional) - filter by change, lower than value, format: 2, 2.2
+    + `change_gte` (optional) - filter by change, bigger than value, format: 2, 2.2
+    + created_at_gte (optional) - filter by datetime (or date) greater than value, format: 2017-12-02T17:56:58.878276Z, 2017-12-02
+    + created_at_lte (optional) - filter by datetime (or date), lower than value, format: 2017-12-02T17:56:58.878276Z, 2017-12-02
+    + updated_at_gte (optional) - filter by datetime (or date) greater than value, format: 2017-12-02T17:56:58.878276Z, 2017-12-02
+    + updated_at_lte (optional) - filter by datetime (or date), lower than value, format: 2017-12-02T17:56:58.878276Z, 2017-12-02
 
 ### List Transactions [GET]
 List of all available transactions
@@ -176,11 +190,20 @@ List of all available transactions
 
 
 
-## Buckets [/api/buckets/?{limit,offset}]
+## Buckets [/api/buckets/{?limit,offset,ordering,search,status,card,created_at_gte,created_at_lte,updated_at_gte,updated_at_lte}]
 
 + Parameters
     + limit (optional) - Number of objects to show on one page
     + offset (optional) - Number of objects to skip
+    
+    + ordering (optional) - order by fields, add '-' before value to reverse, options are: 'status', 'created_at', 'updated_at'
+    + search (optional) - will search by following fields: card numer
+    + status (optional) - filter by status, options are: 'in_progress', 'completed'
+    + card (optional) - filter by card ID! 
+    + created_at_gte (optional) - filter by datetime (or date) greater than value, format: 2017-12-02T17:56:58.878276Z, 2017-12-02
+    + created_at_lte (optional) - filter by datetime (or date), lower than value, format: 2017-12-02T17:56:58.878276Z, 2017-12-02
+    + updated_at_gte (optional) - filter by datetime (or date) greater than value, format: 2017-12-02T17:56:58.878276Z, 2017-12-02
+    + updated_at_lte (optional) - filter by datetime (or date), lower than value, format: 2017-12-02T17:56:58.878276Z, 2017-12-02
 
 ### List Buckets [GET]
 List of all available buckets
@@ -368,11 +391,15 @@ List of all available buckets
 
 
 
-## Product Types [/api/products/types/?{limit,offset}]
+## Product Types [/api/products/types/{?limit,offset,ordering,search,name}]
 
 + Parameters
     + limit (optional) - Number of objects to show on one page
     + offset (optional) - Number of objects to skip
+    
+    + ordering (optional) - order by fields, add '-' before value to reverse, options are: 'name'
+    + search (optional) - will search by following fields: name
+    + name (optional) - filter by field name
 
 
 ### List Product Types [GET]
@@ -479,12 +506,19 @@ List of all available product types
                 }
                 
                 
-## Products [/api/products/?{type_id,limit,offset}]
+## Products [/api/products/{?limit,offset,ordering,search,name,type,price_gte,price_lte}]
 
 + Parameters
-    + type_id (optional) - to filter product by type NOT IMPLEMENTED YET!!!!
     + limit (optional) - Number of objects to show on one page
     + offset (optional) - Number of objects to skip
+    
+    + ordering (optional) - order by fields, add '-' before value to reverse, options are: 'name', 'price', 'type'
+    + search (optional) - will search by following fields: 'name', 'description'
+    + name (optional) - filter by name
+    + type (optional) - filter by product type ID! 
+    + `price_gte` (optional) - filter by price greater than value, format: 2, 2.2
+    + `price_lte` (optional) - filter by price, lower than value, format: 2, 2.2
+
 
 
 ### List Products [GET]
@@ -637,12 +671,16 @@ List of all available products
                     }
                 }
                 
-## Cards [/api/cards/?{limit,offset}]
+## Cards [/api/cards/{?limit,offset,ordering,search,uid,status}]
 
 + Parameters
     + limit (optional) - Number of objects to show on one page
     + offset (optional) - Number of objects to skip
-
+    
+    + ordering (optional) - order by fields, add '-' before value to reverse, options are: 'uid', 'status'
+    + search (optional) - will search by following fields: 'uid'
+    + uid (optional) - filter by uid
+    + status (optional) - filter by status, options are: 'active', 'inactive'
 
 ### List Cards [GET]
 List of all available cards
