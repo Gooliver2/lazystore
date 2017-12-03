@@ -16,6 +16,9 @@ class Bucket(models.Model):
     status = models.CharField(choices=STATUS_CHOICES, default=IN_PROGRESS, max_length=11)
     card = models.ForeignKey(Card, related_name="buckets")
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return "%s __ in __ %s" % (self.card, self.get_status_display())
 

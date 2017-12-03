@@ -2,12 +2,16 @@ from rest_framework import generics
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 
+from product.filters import ProductFilter
 from product.models import Product, ProductType
 from product.serializers import ProductCreateUpdateSerializer, ProductSerializer, ProductTypeSerializer
 
 
 class ProductListView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
+    filter_class = ProductFilter
+    search_fields = ('name', 'description')
+    ordering_fields = ('name', 'price', 'type')
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
@@ -42,6 +46,9 @@ class UploadProductImageView(generics.UpdateAPIView):
 class ProductTypeListView(generics.ListCreateAPIView):
     queryset = ProductType.objects.all()
     serializer_class = ProductTypeSerializer
+    filer_fields = ('name', )
+    search_fields = ('name',)
+    ordering_fields = ('name', )
 
 
 class ProductTypeDetailView(generics.RetrieveUpdateDestroyAPIView):

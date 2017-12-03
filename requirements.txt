@@ -8,3 +8,4 @@ whitenoise
 dj_database_url
 psycopg2
 coreapi
+django_filters
