@@ -9,6 +9,7 @@
     "test": {
       "scripts": {
         "test-setup": "python manage.py collectstatic --noinput"
+        "postdeploy": "python manage.py migrate"
       }
     }
   }
