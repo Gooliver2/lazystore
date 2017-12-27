@@ -14,6 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from rest_framework.documentation import include_docs_urls
 
@@ -28,4 +30,5 @@ urlpatterns = [
     url(r'^api/transactions/', include('transaction.urls')),
 
     url(r'^docs/', include_docs_urls(title='Lazystore API docs'))
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

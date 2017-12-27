@@ -145,6 +145,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media settings
 MEDIA_ROOT = 'media'
+MEDIA_URL = 'media/'
 
 
 # DRF settings
