@@ -1,6 +1,6 @@
 from django.db import models
 
-from product.models import ProductType
+from product.models import Product
 
 
 class Device(models.Model):
@@ -17,7 +17,7 @@ class Device(models.Model):
 
     last_ping = models.DateTimeField(verbose_name="last keep_alive signal", null=True, blank=True)
 
-    product_type = models.ForeignKey(ProductType, related_name="devices", null=True, blank=True)
+    product = models.ForeignKey(Product, related_name="devices", null=True, blank=True)
 
     def __str__(self):
-        return "%s - %s - for - %s" % (self.uid, self.get_status_display(), self.product_type)
+        return "%s - %s - for - %s" % (self.uid, self.get_status_display(), self.product)
