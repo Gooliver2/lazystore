@@ -2,9 +2,8 @@ from rest_framework import generics
 
 from device.models import Device
 from device.serializers import (
-    DeviceListSerializer,
-    DeviceCreateSerializer,
-    DeviceDetailSerializer
+    DeviceCreateUpdateSerializer,
+    DeviceViewSerializer
 )
 
 
@@ -16,10 +15,14 @@ class DeviceListView(generics.ListCreateAPIView):
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
-            return DeviceCreateSerializer
-        return DeviceListSerializer
+            return DeviceCreateUpdateSerializer
+        return DeviceViewSerializer
 
 
 class DeviceDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Device.objects.all()
-    serializer_class = DeviceDetailSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return DeviceViewSerializer
+        return DeviceCreateUpdateSerializer

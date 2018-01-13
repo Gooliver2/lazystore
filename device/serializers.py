@@ -4,14 +4,14 @@ from rest_framework.exceptions import ValidationError
 from device.models import Device
 
 
-class DeviceListSerializer(serializers.ModelSerializer):
+class DeviceViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Device
         fields = '__all__'
         depth = 1
 
 
-class DeviceCreateSerializer(serializers.ModelSerializer):
+class DeviceCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Device
         fields = '__all__'
@@ -23,9 +23,7 @@ class DeviceCreateSerializer(serializers.ModelSerializer):
             raise ValidationError("Card with provided UID already exists!")
         return value
 
-
-class DeviceDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Device
-        fields = '__all__'
-        depth = 1
+    def update(self, instance, validated_data):
+        instance = super(DeviceCreateUpdateSerializer, self).update(instance, validated_data)
+        self._data = DeviceViewSerializer(instance=instance).data
+        return instance
