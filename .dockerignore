@@ -1,0 +1,11 @@
+.dockerignore
+.git
+debug.log
+Dockerfile
+docker-compose.yml
+README*
+docker_data
+docker
+!docker/keys/*
+!docker/web/qcad-3.18.1-pro-linux-x86_64.run
+!docker/web/slic3r-linux-x86_64-1-2-9-stable.tar.gz

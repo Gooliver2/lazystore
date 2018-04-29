@@ -3,9 +3,9 @@ djangorestframework==3.6.4
 markdown
 django-filter==1.0.4
 Pillow
-gunicorn
 whitenoise
 dj_database_url
 psycopg2
 coreapi
 django_filters
+gunicorn==19.6.0

@@ -29,6 +29,9 @@ class BucketSerializer(serializers.ModelSerializer):
         return instance
 
     def update(self, instance, validated_data):
+        self.instance.status = validated_data.get('status')
+        self.instance.save()
+
         instance.items.all().delete()
 
         for item_data in self.initial_data.get('items', []):

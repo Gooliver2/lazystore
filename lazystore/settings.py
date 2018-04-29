@@ -30,6 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'floating-badlands-43654.herokuapp.com',
     '0.0.0.0',
+    'web',
     '127.0.0.1'
 ]
 
