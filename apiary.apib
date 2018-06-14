@@ -53,6 +53,7 @@ List of all available transactions
             }
 
 ### Create a New Transaction [POST]
+After creating transaction related bucket status will be set asd  COMPLETED
 
 + Request (application/json)
 
@@ -771,14 +772,154 @@ List of all available cards
     + Body
     
             {
-                "price": [
-                    "A valid number is required."
+                "uid": [
+                    "Card with provided UID already exists!"
                 ],
-                "type": [
-                    "Invalid pk \"11\" - object does not exist."
+                "status": [
+                    "\"xyiactive\" is not a valid choice."
                 ]
             }
 
 ### Delete Card [DELETE]
+
++ Response 200 (application/json)
+
+
+## Devices [/api/devices/{?limit,offset,ordering,search,uid,status,product}]
+
++ Parameters
+    + limit (optional) - Number of objects to show on one page
+    + offset (optional) - Number of objects to skip
+    
+    + ordering (optional) - order by fields, add '-' before value to reverse, options are: 'uid', 'status', 'product__name'
+    + search (optional) - will search by following fields: 'uid', 'product__name'
+    + uid (optional) - filter by uid
+    + status (optional) - filter by status, options are: 'active', 'inactive'
+    + product (optional) - filter by product ID!
+
+### List Devices [GET]
+List of all available Devices
+
++ Response 200 (application/json)
+
+           {
+                "count": 1,
+                "next": null,
+                "previous": null,
+                "results": [
+                    {
+                        "id": 1,
+                        "uid": "1",
+                        "status": "inactive",
+                        "last_ping": "2017-01-01T00:00:00Z",
+                        "product": null
+                    }
+                ]
+            }
+
+### Create a New Device [POST]
+
++ Request (application/json)
+
+        {
+            "uid": "2",
+            "status": "active",
+            "product": 1                // optional
+        }
+
++ Response 201 (application/json)
+
+    + Body
+    
+            {
+                "id": 4,
+                "uid": "2",
+                "status": "active",
+                "last_ping": null,
+                "product": 1
+            }
+
++ Response 400
+
+    + Body
+    
+            {
+                "uid": [
+                    "Card with provided UID already exists!"
+                ],
+                "status": [
+                    "\"xyiactive\" is not a valid choice."
+                ]
+            }
+
+
+
+
+## Device Detail [/api/devices/{id}/]
+
+### Device Detail [GET]
+
++ Response 200 (application/json)
+
+           {
+                "id": 4,
+                "uid": "2",
+                "status": "active",
+                "last_ping": null,
+                "product": {
+                    "id": 1,
+                    "name": "Apple",
+                    "description": "",
+                    "price": 2,
+                    "image": "products/levelup__F7CkcxL.jpg",
+                    "type": 1
+                }
+            }
+
+
+### Update Device [PUT]
+
++ Request (application/json)
+
+        {
+            "uid": "22",
+            "status": "active",
+            "product": 1                // optional
+        }
+
++ Response 201 (application/json)
+
+    + Body
+    
+                {
+                    "id": 4,
+                    "uid": "22",
+                    "status": "active",
+                    "last_ping": null,
+                    "product": {
+                        "id": 1,
+                        "name": "Apple",
+                        "description": "",
+                        "price": 2,
+                        "image": "products/levelup__F7CkcxL.jpg",
+                        "type": 1
+                    }
+                }
+
++ Response 400 (application/json)
+
+    + Body
+    
+            {
+                "uid": [
+                    "Card with provided UID already exists!"
+                ],
+                "status": [
+                    "\"xyiactive\" is not a valid choice."
+                ]
+            }
+
+
+### Delete Device [DELETE]
 
 + Response 200 (application/json)
